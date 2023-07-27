@@ -1,0 +1,36 @@
+version: 1
+send_anonymous_usage_stats: true
+project_id: "tap-prodco"
+default_environment: test
+environments:
+- name: test
+plugins:
+  extractors:
+  - name: "tap-prodco"
+    namespace: "tap_prodco"
+    pip_url: -e .
+    capabilities:
+    - state
+    - catalog
+    - discover
+    - about
+    - stream-maps
+    config:
+      start_date: '2022-08-01T00:00:00'
+      username: $PRODCO_USERNAME
+      password: $PRODCO_PASSWORD
+      backfill_interval: 1 #days
+    settings:
+    # TODO: To configure using Meltano, declare settings and their types here:
+    - name: username
+      kind: password
+    - name: password
+      kind: password
+    - name: start_date
+      value: '2022-08-01'
+    - name: backfill_interval
+      value: 1
+  loaders:
+  - name: target-jsonl
+    variant: andyh1203
+    pip_url: target-jsonl

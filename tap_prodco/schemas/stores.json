@@ -1,0 +1,27 @@
+{
+    "$schema": "http://json-schema.org/schema#",
+    "type": "object",
+    "properties": {
+        "DateTime": {
+            "type": "string"
+        },
+        "StoreNo": {
+            "type": "string"
+        },
+        "Traffic": {
+            "type": "integer"
+        },
+        "StaffCount": {
+            "type": "integer"
+        },
+        "Traffic_IN": {
+            "type": ["integer","null"]
+        }
+    },
+    "required": [
+        "DateTime",
+        "StoreNo",
+        "Traffic",
+        "StaffCount"
+    ]
+}
