@@ -2,26 +2,51 @@
     "$schema": "http://json-schema.org/schema#",
     "type": "object",
     "properties": {
-        "DateTime": {
-            "type": "string"
-        },
         "StoreNo": {
             "type": "string"
         },
-        "Traffic": {
-            "type": "integer"
+        "StoreName": {
+            "type": "string"
         },
-        "StaffCount": {
-            "type": "integer"
+        "AdminPhone": {
+            "type": "string"
         },
-        "Traffic_IN": {
-            "type": ["integer","null"]
+        "Address": {
+            "type": "string"
+        },
+        "City": {
+            "type": "string"
+        },
+        "State": {
+            "type": "string"
+        },
+        "PostCode": {
+            "type": "string"
+        },
+        "Country": {
+            "type": "string"
+        },
+        "Latitude": {
+            "type": "number"
+        },
+        "Longitude": {
+            "type": "number"
+        },
+        "StartDate": {
+            "type": "string"
         }
     },
     "required": [
-        "DateTime",
         "StoreNo",
-        "Traffic",
-        "StaffCount"
+        "StoreName",
+        "AdminPhone",
+        "Address",
+        "City",
+        "State",
+        "PostCode",
+        "Country",
+        "Latitude",
+        "Longitude",
+        "StartDate"
     ]
 }

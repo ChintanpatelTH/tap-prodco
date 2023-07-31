@@ -49,6 +49,7 @@ class TapProdcoSource(Tap):
         """
         return [
             streams.TrafficData(self),
+            streams.StoresData(self),
         ]
 
 

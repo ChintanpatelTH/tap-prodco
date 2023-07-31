@@ -25,3 +25,13 @@ class TrafficData(ProdcoSourceStream):
     schema_filepath = SCHEMAS_DIR / "stores.json"
     records_jsonpath = "$.Data[*]"
     is_sorted = False
+
+class StoresData(ProdcoSourceStream):
+    """Define custom stream."""
+
+    name = "stores_data"
+    path = "/Stores"
+    primary_keys = ["StoreNo"]  # noqa: RUF012
+    replication_method = "FULL_TABLE"
+    schema_filepath = SCHEMAS_DIR / "stores.json"
+    records_jsonpath = "$.Data[*]"
