@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import time
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any, Iterable
@@ -65,7 +66,7 @@ class TrafficData(ProdcoSourceStream):
         )
         context = context or {}
         # set from date to last updated date or config start date
-        min_date = parser.parse(min_value) + timedelta(seconds=1)
+        min_date = parser.parse(min_value)
         while min_date < current_date:
             updated_at_max = min_date + timedelta(days=interval)
             if updated_at_max > current_date:
@@ -78,6 +79,8 @@ class TrafficData(ProdcoSourceStream):
             self._increment_stream_state({"DateTime": self.end_date}, context=context)
             self._write_state_message()
             min_date = updated_at_max
+            # Delay API call to avoid rate limit
+            time.sleep(60)
 
 
 class StoresData(ProdcoSourceStream):
