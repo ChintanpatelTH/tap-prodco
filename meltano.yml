@@ -20,6 +20,7 @@ plugins:
       username: $PRODCO_USERNAME
       password: $PRODCO_PASSWORD
       backfill_interval: 1 #days
+      fifteen_minute_rollout: $FIFTEEN_MINUTE_ROLLOUT
     settings:
     # TODO: To configure using Meltano, declare settings and their types here:
     - name: username
@@ -28,8 +29,11 @@ plugins:
       kind: password
     - name: start_date
       value: '2022-08-01'
+    - name: end_date
+      value: '2022-08-01'
     - name: backfill_interval
       value: 1
+    - name: fifteen_minute_rollout
   loaders:
   - name: target-jsonl
     variant: andyh1203

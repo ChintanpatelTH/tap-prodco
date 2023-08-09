@@ -44,7 +44,11 @@ class TrafficData(ProdcoSourceStream):
         params: dict = {}
         params["from"] = self.start_date
         params["to"] = self.end_date
-        params["increment"] = "FIFTEEN_MINUTES"
+        params["increment"] = (
+            "FIFTEEN_MINUTES"
+            if self.start_date >= self.config.get("fifteen_minute_rollout", "2023-04-27")  # noqa: E501
+            else "ONE_HOUR"
+        )
         self.logger.info(params)
         return params
 
@@ -58,7 +62,10 @@ class TrafficData(ProdcoSourceStream):
             Each record from the source.
         """
         current_state = self.get_context_state(context)
-        current_date = datetime.now(timezone.utc).replace(tzinfo=None)
+        if self.config.get("end_date"):
+            current_date = parser.parse(self.config.get("end_date"))
+        else:
+            current_date = datetime.now(timezone.utc).replace(tzinfo=None)
         interval = float(self.config.get("backfill_interval", 1))
         min_value = current_state.get(
             "replication_key_value",
@@ -72,8 +79,8 @@ class TrafficData(ProdcoSourceStream):
             if updated_at_max > current_date:
                 updated_at_max = current_date
 
-            self.start_date = min_date.isoformat()
-            self.end_date = updated_at_max.isoformat()
+            self.start_date = min_date.strftime("%Y-%m-%d")
+            self.end_date = updated_at_max.strftime("%Y-%m-%d")
             yield from super().get_records(context)
             # Send state message
             self._increment_stream_state({"DateTime": self.end_date}, context=context)
