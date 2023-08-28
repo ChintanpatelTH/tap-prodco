@@ -66,14 +66,14 @@ class TrafficData(ProdcoSourceStream):
             current_date = parser.parse(self.config.get("end_date"))
         else:
             current_date = datetime.now(timezone.utc).replace(tzinfo=None)
-        interval = float(self.config.get("backfill_interval", 1))
+        interval = float(self.config.get("backfill_interval", 2))
         min_value = current_state.get(
             "replication_key_value",
             self.config.get("start_date", ""),
         )
         context = context or {}
-        # set from date to last updated date or config start date
-        min_date = parser.parse(min_value)
+        # Set min date to previous day to backfill any missing data
+        min_date = parser.parse(min_value) - timedelta(days=1)
         while min_date < current_date:
             updated_at_max = min_date + timedelta(days=interval)
             if updated_at_max > current_date:
